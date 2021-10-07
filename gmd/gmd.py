@@ -227,6 +227,8 @@ class GMD(object):
         text_blob = b''.join(
             [s.text + b'\x00' for s in self.sections]
         )
+        text_blob = text_blob.replace(b'\r\n', b'\n')
+        text_blob = text_blob.replace(b'\n', b'\r\n')
         text_blob = XOR.rexor(text_blob, 1)
 
         label_blob = b''.join(
