@@ -83,7 +83,7 @@ class GFD(object):
                    glyph.posy + glyph.height)
             font = tex.crop(box)
 
-            bg = Image.new('RGBA', (glyph.width, glyph.height), (0, 0, 0))
+            bg = Image.new('RGBA', (glyph.width, glyph.height), (0, 0, 0, 255))
             bg.paste(font, (0, 0), font)
 
             bg.save(os.path.join(dump_dir, f"{cnt}.png"))

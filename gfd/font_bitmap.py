@@ -23,12 +23,13 @@ class FontBitmap(object):
             fill='white'
         )
 
+        txt_size = font.getsize(txt)
         entry = GlyphEntry(
             char=txt,
             tex=idx,
             pos=(self.offset_x, self.offset_y),
-            size=font.getsize(txt),
-            pos_off=(16, 17),
+            size=txt_size,
+            pos_off=(txt_size[0], 18),
             pos_add=(0, 0),
             offset=FontBitmap.global_offset
         )

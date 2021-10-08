@@ -31,6 +31,9 @@ generate_parser.add_argument('-i', metavar='res_dir', type=str, nargs=1,
 generate_parser.add_argument('-f', metavar='font', type=str, nargs=1,
                              help='TrueType font file', required=True)
 
+generate_parser.add_argument('-n', metavar='font', type=str, nargs=1,
+                             help='GFD file index', required=True)
+
 generate_parser.add_argument('-o', metavar='output_dir', type=str, nargs=1,
                              help='Output directory', required=True)
 
@@ -55,50 +58,54 @@ def dump_gfd(gfd_file: str, dump_dir: str) -> None:
         writer.writerows(font_tab)
 
 
-def generate_gfd(font_name: str, out_dir: str, res_dir: str):
+def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
     os.makedirs(out_dir, exist_ok=True)
 
+    base_name = None
     for gfd_header in os.listdir(res_dir):
-        if not gfd_header.endswith('_header.bin'):
-            continue
-        base_name = gfd_header[:-11]  # len('_header.bin')
+        if gfd_header == f"font{font_index}_jpn_header.bin":
+            base_name = gfd_header[:-11]  # len('_header.bin')
+            break
 
-        char_list_name = f"{base_name}_list.json"
-        with open(os.path.join(res_dir, char_list_name), 'r') as f:
-            char_list = json.load(f)
+    if base_name is None:
+        raise ValueError(f"No GFD file with index {font_index}")
 
-        with open(os.path.join(res_dir, gfd_header), 'rb') as f:
-            gfd = GFD.load(f)
+    char_list_name = f"{base_name}_list.json"
+    with open(os.path.join(res_dir, char_list_name), 'r') as f:
+        char_list = json.load(f)
 
-        ttf = ImageFont.truetype(font_name, gfd.header.size_px)
+    with open(os.path.join(res_dir, gfd_header), 'rb') as f:
+        gfd = GFD.load(f)
 
-        bitmaps = list[FontBitmap]()
-        bitmap = FontBitmap()
+    ttf = ImageFont.truetype(font_name, gfd.header.size_px)
 
-        gfd_entries = list[GlyphEntry]()
-        for char_code in char_list:
-            txt = chr(char_code)
+    bitmaps = list[FontBitmap]()
+    bitmap = FontBitmap()
 
-            entry = bitmap.push(txt, len(bitmaps), ttf)
+    gfd_entries = list[GlyphEntry]()
+    for char_code in char_list:
+        txt = chr(char_code)
 
-            gfd_entries.append(entry)
+        entry = bitmap.push(txt, len(bitmaps), ttf)
 
-            # Next bitmap
-            if bitmap.full:
-                bitmaps.append(bitmap)
-                bitmap = FontBitmap()
-        bitmaps.append(bitmap)
+        gfd_entries.append(entry)
 
-        gfd.header.bitmap_count = len(bitmaps)
-        gfd.header.entry_count = len(gfd_entries)
-        gfd.glyphs = gfd_entries
+        # Next bitmap
+        if bitmap.full:
+            bitmaps.append(bitmap)
+            bitmap = FontBitmap()
+    bitmaps.append(bitmap)
 
-        gfd_name = f"{base_name}.gfd"
-        gfd.repack(os.path.join(out_dir, gfd_name))
+    gfd.header.bitmap_count = len(bitmaps)
+    gfd.header.entry_count = len(gfd_entries)
+    gfd.glyphs = gfd_entries
 
-        for i in range(len(bitmaps)):
-            bitmap_name = f"{base_name}_bitmap_{i}.png"
-            bitmaps[i].save(os.path.join(out_dir, bitmap_name))
+    gfd_name = f"{base_name}.gfd"
+    gfd.repack(os.path.join(out_dir, gfd_name))
+
+    for i in range(len(bitmaps)):
+        bitmap_name = f"{base_name}_bitmap_{i}.png"
+        bitmaps[i].save(os.path.join(out_dir, bitmap_name))
 
 
 if __name__ == "__main__":
@@ -110,6 +117,7 @@ if __name__ == "__main__":
             font_name=args.f[0],
             out_dir=args.o[0],
             res_dir=args.i[0],
+            font_index=args.n[0]
         )
     else:
         parser.print_help()
