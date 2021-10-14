@@ -46,8 +46,6 @@ def count_from_dir(text_dir: str, out_file: str):
     txt_files = glob.glob(f"{text_dir}/**/*.txt")
 
     for file in txt_files:
-        if 'sce08_c003_0020' in file:
-            continue
         with open(file, 'r', encoding='UTF-8') as f:
             for char in f.read():
                 char_set.add(ord(char))
