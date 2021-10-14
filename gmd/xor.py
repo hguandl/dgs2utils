@@ -16,7 +16,7 @@ class XOR(object):
         if check != 0:
             raise ValueError("Cannot dexor")
 
-        ret = list[int]()
+        ret = list()
         for i in range(len(text)):
             b = text[i]
             b = (
@@ -29,7 +29,7 @@ class XOR(object):
 
     @staticmethod
     def rexor(text: bytes) -> bytes:
-        ret = list[int]()
+        ret = list()
         for i in range(len(text)):
             b = text[i]
             b = (

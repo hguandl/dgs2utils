@@ -119,8 +119,8 @@ class GMD(object):
         self.name = None
         self.header = None
         self.padding = 0
-        self.labels = list[GMD._Label]()
-        self.sections = list[GMDSection]()
+        self.labels = list()
+        self.sections = list()
         self.buckets = [0 for _ in range(0x100)]
         self.__label_offset = 0
 
@@ -149,7 +149,7 @@ class GMD(object):
             offset += 20
 
         bucket_size = 0x100 if gmd.header.label_count > 0 else 0
-        gmd.buckets = list[int]()
+        gmd.buckets = list()
         for _ in range(bucket_size):
             gmd.buckets.append(struct.unpack_from('<i', content[offset:])[0])
             offset += 4

@@ -3,7 +3,7 @@ from typing import Tuple
 
 def bit_cut(data: int, *bits: int) -> Tuple[int, ...]:
     assert sum(bits) <= 32
-    parts = list[int]()
+    parts = list()
 
     for bit in bits:
         parts.append(data & ((1 << bit) - 1))

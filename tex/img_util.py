@@ -22,7 +22,7 @@ def change_bit_depth(value: int, bd_from: int, bd_to: int) -> int:
 
 
 def la04_loader(tex: bytes) -> List[Tuple[int, int, int]]:
-    ret = list[Tuple[int, int, int]]()
+    ret = list()
     bit_depth = 4 + 0
     l_depth = 0
     a_depth = 4
@@ -50,7 +50,7 @@ def la04_loader(tex: bytes) -> List[Tuple[int, int, int]]:
 
 
 def la04_encode(bmp: Tuple[int, int, int, int]) -> bytes:
-    ret = list[int]()
+    ret = list()
     nibble = 0
     for px in bmp:
         alpha = change_bit_depth(px[3], 8, 4)

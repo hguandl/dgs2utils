@@ -54,7 +54,7 @@ class GFD(object):
     def __init__(self) -> None:
         self.name = None
         self.header = None
-        self.glyphs = list[GlyphEntry]()
+        self.glyphs = list()
 
     @staticmethod
     def load(f: BufferedReader) -> GFD:

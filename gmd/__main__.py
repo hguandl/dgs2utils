@@ -2,7 +2,6 @@ import argparse
 import json
 import os
 import re
-from typing import Tuple
 
 from .gmd import GMD, GMDSection
 
@@ -59,7 +58,7 @@ def repack_gmds(unpack_dir: str, pack_dir: str):
         gmd.name = gmd_info['name']
         gmd.padding = gmd_info['padding']
 
-        scripts = list[Tuple[int, str, str]]()
+        scripts = list()
         for section_file in os.listdir(gmd_file):
             if not section_file.endswith('.txt'):
                 continue

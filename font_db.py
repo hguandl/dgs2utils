@@ -4,6 +4,7 @@ import argparse
 import csv
 import glob
 import json
+from typing import List
 
 parser = argparse.ArgumentParser(
     prog='font_db.py',
@@ -41,7 +42,7 @@ merge_cmd.add_argument('-o', metavar='output_file', type=str, nargs=1,
 
 
 def count_from_dir(text_dir: str, out_file: str):
-    char_set = set[int]()
+    char_set = set()
 
     txt_files = glob.glob(f"{text_dir}/**/*.txt")
 
@@ -61,7 +62,7 @@ def count_from_dir(text_dir: str, out_file: str):
 
 
 def csv_to_txt(csv_file: str, out_file: str):
-    char_set = set[int]()
+    char_set = set()
 
     with open(csv_file, 'r', encoding='UTF-8') as f:
         for row in csv.DictReader(f):
@@ -77,8 +78,8 @@ def csv_to_txt(csv_file: str, out_file: str):
     print(f"Total: {len(char_list)}")
 
 
-def merge_lists(files: list[str], out_file: str):
-    char_set = set[int]()
+def merge_lists(files: List[str], out_file: str):
+    char_set = set()
 
     for file in files:
         with open(file, 'r', encoding='UTF-8') as f:
