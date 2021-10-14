@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 
 def change_bit_depth(value: int, bd_from: int, bd_to: int) -> int:
@@ -21,7 +21,7 @@ def change_bit_depth(value: int, bd_from: int, bd_to: int) -> int:
         return value // limit
 
 
-def la04_loader(tex: bytes) -> list[Tuple[int, int, int]]:
+def la04_loader(tex: bytes) -> List[Tuple[int, int, int]]:
     ret = list[Tuple[int, int, int]]()
     bit_depth = 4 + 0
     l_depth = 0
