@@ -70,6 +70,7 @@ class GFD(object):
         return gfd
 
     def dump(self, dump_dir: str) -> None:
+        raise NotImplementedError()
         os.makedirs(dump_dir, exist_ok=True)
 
         cnt = 0

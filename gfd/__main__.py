@@ -18,6 +18,7 @@ command_parsers = parser.add_subparsers(title='commands', dest='command',
                                         help='GFD process')
 dump_parser = command_parsers.add_parser('dump', help='Unpack GMD files')
 generate_parser = command_parsers.add_parser('generate', help='Repack to GMD')
+export_parser = command_parsers.add_parser('export', help='Export GMD')
 
 dump_parser.add_argument('gfd', metavar='gfd_file', type=str, nargs=1,
                          help='GFD file')
@@ -36,6 +37,12 @@ generate_parser.add_argument('-n', metavar='font', type=str, nargs=1,
 
 generate_parser.add_argument('-o', metavar='output_dir', type=str, nargs=1,
                              help='Output directory', required=True)
+
+export_parser.add_argument('-i', metavar='gfd_file', type=str, nargs=1,
+                           help='GFD file', required=True)
+
+export_parser.add_argument('-o', metavar='output_dir', type=str, nargs=1,
+                           help='Output directory', required=True)
 
 
 def dump_gfd(gfd_file: str, dump_dir: str) -> None:
@@ -108,6 +115,14 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
         bitmaps[i].save(os.path.join(out_dir, bitmap_name))
 
 
+def export_gfd(gfd_file: str, out_dir: str) -> None:
+    assert gfd_file.endswith('.gfd')
+
+    with open(gfd_file, 'rb') as f:
+        gfd = GFD.load(f)
+        gfd.dump(out_dir)
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
     if args.command == 'dump':
@@ -119,5 +134,7 @@ if __name__ == "__main__":
             res_dir=args.i[0],
             font_index=args.n[0]
         )
+    elif args.command == 'export':
+        export_gfd(args.i[0], args.o[0])
     else:
         parser.print_help()
