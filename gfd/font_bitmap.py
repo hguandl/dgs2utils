@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from PIL import Image, ImageDraw, ImageFont
 
 from .glyph_entry import GlyphEntry
@@ -53,3 +54,6 @@ class FontBitmap(object):
 
     def save(self, *args, **kwargs) -> None:
         return self.__image.save(*args, **kwargs)
+
+    def getdata(self) -> List[Tuple[int, ...]]:
+        return list(self.__image.getdata())

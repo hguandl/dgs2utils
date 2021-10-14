@@ -1,10 +1,11 @@
 import argparse
 import csv
-import os
 import json
+import os
 
 from PIL import ImageFont
 
+from ..tex import MTTex
 from .font_bitmap import FontBitmap
 from .gfd import GFD
 from .glyph_entry import GlyphEntry
@@ -111,8 +112,9 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
     gfd.repack(os.path.join(out_dir, gfd_name))
 
     for i in range(len(bitmaps)):
-        bitmap_name = f"{base_name}_bitmap_{i}.png"
-        bitmaps[i].save(os.path.join(out_dir, bitmap_name))
+        tex = MTTex.new((512, 512), bitmaps[i].getdata())
+        tex_name = f"{base_name}_{i:02d}_AM_NOMIP.tex"
+        tex.export_tex(os.path.join(out_dir, tex_name))
 
 
 def export_gfd(gfd_file: str, out_dir: str) -> None:
