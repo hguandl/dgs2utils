@@ -2,12 +2,14 @@ import argparse
 import csv
 import json
 import os
+from typing import List
 
 from PIL import ImageFont
 
 from ..tex import MTTex
 from .font_bitmap import FontBitmap
 from .gfd import GFD
+from .glyph_entry import GlyphEntry
 
 parser = argparse.ArgumentParser(
     prog='python3 -m gfd',
@@ -86,10 +88,10 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
 
     ttf = ImageFont.truetype(font_name, gfd.header.size_px)
 
-    bitmaps = list()
+    bitmaps: List[FontBitmap] = list()
     bitmap = FontBitmap()
 
-    gfd_entries = list()
+    gfd_entries: List[GlyphEntry] = list()
     for char_code in char_list:
         txt = chr(char_code)
 

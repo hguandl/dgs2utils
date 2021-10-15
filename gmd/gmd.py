@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import struct
+from typing import List
 
 from .crc32 import Crc32
 from .xor import XOR
@@ -119,8 +120,8 @@ class GMD(object):
         self.name = None
         self.header = None
         self.padding = 0
-        self.labels = list()
-        self.sections = list()
+        self.labels: List[GMD._Label] = list()
+        self.sections: List[GMDSection] = list()
         self.buckets = [0 for _ in range(0x100)]
         self.__label_offset = 0
 

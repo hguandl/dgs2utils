@@ -1,3 +1,6 @@
+from typing import List
+
+
 class XOR(object):
     key1 = b"e43bcc7fcab+a6c4ed22fcd433/9d2e6cb053fa462-463f3a446b19"
     key2 = b"861f1dca05a0;9ddd5261e5dcc@6b438e6c.8ba7d71c*4fd11f3af1"
@@ -16,7 +19,7 @@ class XOR(object):
         if check != 0:
             raise ValueError("Cannot dexor")
 
-        ret = list()
+        ret: List[int] = list()
         for i in range(len(text)):
             b = text[i]
             b = (
@@ -29,7 +32,7 @@ class XOR(object):
 
     @staticmethod
     def rexor(text: bytes) -> bytes:
-        ret = list()
+        ret: List[int] = list()
         for i in range(len(text)):
             b = text[i]
             b = (

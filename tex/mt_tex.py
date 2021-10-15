@@ -57,7 +57,7 @@ class MTTex(object):
 
     def __init__(self) -> None:
         self.header = MTTex._Header()
-        self.bmp_data = list()
+        self.bmp_data: List[Tuple[int, int, int, int]] = list()
 
     @staticmethod
     def load(f: BufferedReader) -> MTTex:

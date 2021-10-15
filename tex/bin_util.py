@@ -1,9 +1,9 @@
-from typing import Tuple
+from typing import List, Tuple
 
 
 def bit_cut(data: int, *bits: int) -> Tuple[int, ...]:
     assert sum(bits) <= 32
-    parts = list()
+    parts: List[int] = list()
 
     for bit in bits:
         parts.append(data & ((1 << bit) - 1))

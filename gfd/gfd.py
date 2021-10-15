@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import struct
 from io import BufferedReader
+from typing import List
 
 from PIL import Image
 
@@ -54,7 +55,7 @@ class GFD(object):
     def __init__(self) -> None:
         self.name = None
         self.header = None
-        self.glyphs = list()
+        self.glyphs: List[GlyphEntry] = list()
 
     @staticmethod
     def load(f: BufferedReader) -> GFD:

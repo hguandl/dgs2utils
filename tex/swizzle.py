@@ -43,7 +43,7 @@ class MasterSwizzle(object):
 
     def swizzle_bidict(self, width: int, height: int) -> bidict[int, int]:
         px_cnt = width * height
-        ret = bidict()
+        ret: bidict[int, int] = bidict()
         for tex_idx in range(px_cnt):
             x, y = self.get(tex_idx)
             bmp_idx = x + y * width
