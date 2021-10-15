@@ -90,7 +90,7 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
 
     bitmaps: List[FontBitmap] = list()
     if font_index == '00':
-        adjust = (0, 3)
+        adjust = (0, 2)
     else:
         adjust = (0, 0)
     bitmap = FontBitmap(adjust)

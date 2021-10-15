@@ -29,12 +29,17 @@ class FontBitmap(object):
         size_w -= self.adjust[0]
         size_h -= self.adjust[1]
 
+        if self.adjust[1] > 0:
+            pos_off_y = 16
+        else:
+            pos_off_y = 18
+
         entry = GlyphEntry(
             char=txt,
             tex=idx,
             pos=(self.offset_x+self.adjust[0], self.offset_y+self.adjust[1]),
             size=(size_w, size_h),
-            pos_off=(size_w, 18),
+            pos_off=(size_w, pos_off_y),
             pos_add=(0, 0),
             offset=FontBitmap.global_offset
         )
