@@ -7,12 +7,13 @@ from .glyph_entry import GlyphEntry
 class FontBitmap(object):
     global_offset = 20
 
-    def __init__(self, ) -> None:
+    def __init__(self, adjust: Tuple[int, int] = (0, 0)) -> None:
         self.__image = Image.new('RGBA', (512, 512), (255, 255, 255, 0))
         self.draw = ImageDraw.Draw(self.__image)
 
         self.offset_x = 0
         self.offset_y = 0
+        self.adjust = adjust
         self.full = False
 
     def push(self, txt: str, idx: int,
@@ -24,13 +25,16 @@ class FontBitmap(object):
             fill='white'
         )
 
-        txt_size = font.getsize(txt)
+        size_w, size_h = font.getsize(txt)
+        size_w -= self.adjust[0]
+        size_h -= self.adjust[1]
+
         entry = GlyphEntry(
             char=txt,
             tex=idx,
-            pos=(self.offset_x, self.offset_y),
-            size=txt_size,
-            pos_off=(txt_size[0], 18),
+            pos=(self.offset_x+self.adjust[0], self.offset_y+self.adjust[1]),
+            size=(size_w, size_h),
+            pos_off=(size_w, 18),
             pos_add=(0, 0),
             offset=FontBitmap.global_offset
         )

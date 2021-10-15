@@ -89,7 +89,11 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
     ttf = ImageFont.truetype(font_name, gfd.header.size_px)
 
     bitmaps: List[FontBitmap] = list()
-    bitmap = FontBitmap()
+    if font_index == '00':
+        adjust = (0, 3)
+    else:
+        adjust = (0, 0)
+    bitmap = FontBitmap(adjust)
 
     gfd_entries: List[GlyphEntry] = list()
     for char_code in char_list:
@@ -102,7 +106,7 @@ def generate_gfd(font_name: str, out_dir: str, res_dir: str, font_index: str):
         # Next bitmap
         if bitmap.full:
             bitmaps.append(bitmap)
-            bitmap = FontBitmap()
+            bitmap = FontBitmap(adjust)
     bitmaps.append(bitmap)
 
     gfd.header.bitmap_count = len(bitmaps)
